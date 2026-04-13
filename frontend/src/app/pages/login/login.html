@@ -1,0 +1,15 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>StudyFlow</h2>
+    <p>Sign in to your account</p>
+
+    <input [(ngModel)]="username" placeholder="Username" type="text">
+    <input [(ngModel)]="password" placeholder="Password" type="password">
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <button (click)="login()">Sign In</button>
+  </div>
+</div>

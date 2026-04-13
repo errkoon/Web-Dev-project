@@ -1,0 +1,29 @@
+<div class="dashboard">
+  <nav>
+    <span>StudyFlow</span>
+    <div>
+      <a routerLink="/courses">Courses</a>
+      <a routerLink="/tasks">Tasks</a>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    @if (profile) {
+      <h2>Welcome, {{ profile.username }}!</h2>
+      <p>Email: {{ profile.email }}</p>
+      <p>Bio: {{ profile.bio }}</p>
+    } @else {
+      <p>Loading profile...</p>
+    }
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <div class="links">
+      <a routerLink="/courses">My Courses</a>
+      <a routerLink="/tasks">My Tasks</a>
+    </div>
+  </div>
+</div>
