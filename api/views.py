@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .serializers import RegisterSerializer, UserProfileSerializer
 from rest_framework.views import APIView
-from .models import Course, Task
-from .serializers import CourseSerializer, TaskSerializer
+from .models import Course, Task, Progress, Deadline
+from .serializers import CourseSerializer, TaskSerializer, ProgressSerializer, DeadlineSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -93,3 +93,36 @@ def task_detail(request, pk):
     elif request.method == 'DELETE':
         task.delete()
         return Response({'message': 'Deleted'}, status=204)
+    
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def progress_list(request):
+
+    if request.method == 'GET':
+        progress = Progress.objects.filter(course__user=request.user)
+        serializer = ProgressSerializer(progress, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ProgressSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def deadline_list(request):
+
+    if request.method == 'GET':
+        deadlines = Deadline.objects.filter(task__user=request.user)
+        serializer = DeadlineSerializer(deadlines, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = DeadlineSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)

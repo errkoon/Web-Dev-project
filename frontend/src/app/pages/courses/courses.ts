@@ -6,45 +6,64 @@ import { CourseService } from '../../core/services/course';
   selector: 'app-courses',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './courses.html',
-  styleUrl: './courses.css'
+  templateUrl: './courses.html',   
+  styleUrls: ['./courses.css']
 })
-export class CoursesComponent implements OnInit {
+export class Courses implements OnInit {
+
+  newCourse = {
+    name: '',
+    description: ''
+  };
+
   courses: any[] = [];
-  newCourse = { name: '', description: '' };
-  progressMap: any = {};
-  error = '';
+  error: string = '';
+
+  progressMap: { [key: number]: number } = {};
 
   constructor(private courseService: CourseService) {}
 
-  ngOnInit() { this.loadCourses(); }
+  ngOnInit() {
+    this.loadCourses();
+  }
 
   loadCourses() {
     this.courseService.getCourses().subscribe({
-      next: (data: any[]) => this.courses = data,
-      error: () => this.error = 'Error loading courses'
+      next: (data) => this.courses = data,
+      error: () => this.error = 'Download error'
     });
   }
 
   createCourse() {
-    if (!this.newCourse.name) { this.error = 'Enter course name'; return; }
+    if (!this.newCourse.name) {
+      this.error = 'Enter the name';
+      return;
+    }
+
     this.courseService.createCourse(this.newCourse).subscribe({
-      next: () => { this.newCourse = { name: '', description: '' }; this.error = ''; this.loadCourses(); },
-      error: () => this.error = 'Error creating course'
+      next: () => {
+        this.newCourse = { name: '', description: '' };
+        this.error = '';
+        this.loadCourses();
+      },
+      error: () => this.error = 'Creation error'
     });
   }
 
   deleteCourse(id: number) {
     this.courseService.deleteCourse(id).subscribe({
       next: () => this.loadCourses(),
-      error: () => this.error = 'Error deleting course'
+      error: () => this.error = 'Deletion error'
     });
   }
 
-  updateProgress(courseId: number, percent: number) {
-    this.courseService.updateProgress({ course: courseId, percent }).subscribe({
-      next: () => this.progressMap[courseId] = percent,
-      error: () => this.error = 'Error updating progress'
+  updateProgress(id: number, value: number) {
+    this.courseService.updateProgress({
+      course: id,
+      percent: value
+    }).subscribe({
+      next: () => this.progressMap[id] = value,
+      error: () => this.error = 'Progress error'
     });
   }
 }
