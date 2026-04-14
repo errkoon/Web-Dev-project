@@ -1,1 +1,64 @@
-<p>tasks works!</p>
+<div class="tasks-container">
+    <h2>Tasks</h2>
+  
+    <!-- CREATE TASK -->
+    <div class="form-block">
+      <input [(ngModel)]="newTask.title" placeholder="Task name">
+  
+      <select [(ngModel)]="newTask.course">
+        <option value="">Choose course</option>
+        @for (course of courses; track course.id) {
+          <option [value]="course.id">{{ course.name }}</option>
+        }
+      </select>
+  
+      <select [(ngModel)]="newTask.priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+  
+      <button (click)="createTask()">Create</button>
+    </div>
+  
+    <!-- DEADLINE -->
+    <div class="form-block">
+      <select [(ngModel)]="newDeadline.task">
+        <option value="">Choose task</option>
+        @for (task of tasks; track task.id) {
+          <option [value]="task.id">{{ task.title }}</option>
+        }
+      </select>
+  
+      <input type="date" [(ngModel)]="newDeadline.due_date">
+      <input [(ngModel)]="newDeadline.note" placeholder="Note">
+  
+      <button (click)="addDeadline()">Add deadline</button>
+    </div>
+  
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+  
+    <!-- TASK LIST -->
+    @for (task of tasks; track task.id) {
+      <div class="task-card" [class.completed]="task.is_completed">
+  
+        <div class="task-header">
+          <h3>{{ task.title }}</h3>
+          <span class="priority {{ task.priority }}">{{ task.priority }}</span>
+        </div>
+  
+        <p>Course: {{ task.course_name }}</p>
+  
+        @if (task.is_completed) {
+          <span class="done">Done</span>
+        } @else {
+          <button (click)="completeTask(task.id)">Complete</button>
+        }
+  
+        <button class="delete" (click)="deleteTask(task.id)">Delete</button>
+  
+      </div>
+    }
+  </div>

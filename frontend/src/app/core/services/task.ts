@@ -13,7 +13,9 @@ export class TaskService {
   createTask(data: any) { return this.http.post(this.taskUrl, data); }
   completeTask(id: number) { return this.http.patch(`${this.taskUrl}${id}/`, { is_completed: true }); }
   deleteTask(id: number) { return this.http.delete(`${this.taskUrl}${id}/`); }
+
   getCourses() { return this.http.get<any[]>(this.courseUrl); }
+
   createDeadline(data: any) { return this.http.post(this.deadlineUrl, data); }
   getDeadlines() { return this.http.get<any[]>(this.deadlineUrl); }
 }
