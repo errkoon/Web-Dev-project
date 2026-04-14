@@ -1,0 +1,27 @@
+.tasks-container {
+    max-width: 700px;
+    margin: auto;
+  }
+  
+  .form-block {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .task-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .priority.high { color: red; }
+  .priority.medium { color: orange; }
+  .priority.low { color: green; }
+  
+  .done { color: green; }
+  
+  .delete {
+    background: red;
+    color: white;
+  }

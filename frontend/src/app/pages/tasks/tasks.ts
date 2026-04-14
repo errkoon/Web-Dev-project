@@ -10,65 +10,86 @@ import { TaskService } from '../../core/services/task';
   styleUrl: './tasks.css'
 })
 export class TasksComponent implements OnInit {
+
   tasks: any[] = [];
   courses: any[] = [];
   deadlines: any[] = [];
+
   newTask = { title: '', course: '', priority: 'medium' };
   newDeadline = { task: '', due_date: '', note: '' };
+
   error = '';
 
   constructor(private taskService: TaskService) {}
 
-  ngOnInit() { this.loadTasks(); this.loadCourses(); this.loadDeadlines(); }
+  ngOnInit() {
+    this.loadTasks();
+    this.loadCourses();
+    this.loadDeadlines();
+  }
 
   loadTasks() {
     this.taskService.getTasks().subscribe({
-      next: (data: any[]) => this.tasks = data,
-      error: () => this.error = 'Error loading tasks'
+      next: (data) => this.tasks = data,
+      error: () => this.error = 'Ошибка загрузки заданий'
     });
   }
 
   loadCourses() {
     this.taskService.getCourses().subscribe({
-      next: (data: any[]) => this.courses = data,
-      error: () => {}
+      next: (data) => this.courses = data
     });
   }
 
   loadDeadlines() {
     this.taskService.getDeadlines().subscribe({
-      next: (data: any[]) => this.deadlines = data,
-      error: () => {}
+      next: (data) => this.deadlines = data
     });
   }
 
   createTask() {
-    if (!this.newTask.title || !this.newTask.course) { this.error = 'Fill in title and course'; return; }
+    if (!this.newTask.title || !this.newTask.course) {
+      this.error = 'Заполните название и курс';
+      return;
+    }
+
     this.taskService.createTask(this.newTask).subscribe({
-      next: () => { this.newTask = { title: '', course: '', priority: 'medium' }; this.error = ''; this.loadTasks(); },
-      error: () => this.error = 'Error creating task'
+      next: () => {
+        this.newTask = { title: '', course: '', priority: 'medium' };
+        this.error = '';
+        this.loadTasks();
+      },
+      error: () => this.error = 'Ошибка создания задания'
     });
   }
 
   completeTask(id: number) {
     this.taskService.completeTask(id).subscribe({
       next: () => this.loadTasks(),
-      error: () => this.error = 'Error updating task'
+      error: () => this.error = 'Ошибка обновления'
     });
   }
 
   deleteTask(id: number) {
     this.taskService.deleteTask(id).subscribe({
       next: () => this.loadTasks(),
-      error: () => this.error = 'Error deleting task'
+      error: () => this.error = 'Ошибка удаления'
     });
   }
 
   addDeadline() {
-    if (!this.newDeadline.task || !this.newDeadline.due_date) { this.error = 'Select task and date'; return; }
+    if (!this.newDeadline.task || !this.newDeadline.due_date) {
+      this.error = 'Выберите задачу и дату';
+      return;
+    }
+
     this.taskService.createDeadline(this.newDeadline).subscribe({
-      next: () => { this.newDeadline = { task: '', due_date: '', note: '' }; this.error = ''; this.loadDeadlines(); },
-      error: () => this.error = 'Error adding deadline'
+      next: () => {
+        this.newDeadline = { task: '', due_date: '', note: '' };
+        this.error = '';
+        this.loadDeadlines();
+      },
+      error: () => this.error = 'Ошибка дедлайна'
     });
   }
 }
