@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
 })
 export class DashboardComponent implements OnInit {
   profile: any = null;
@@ -17,12 +17,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.auth.getProfile().subscribe({
-      next: (data) => this.profile = data,
+      next: (data: any) => this.profile = data,
       error: () => this.error = 'Failed to load profile'
     });
   }
 
-  logout() {
-    this.auth.logout();
-  }
+  logout() { this.auth.logout(); }
 }
