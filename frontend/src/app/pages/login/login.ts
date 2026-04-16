@@ -18,14 +18,17 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   login() {
-    if (!this.username || !this.password) { this.error = 'Fill in all fields'; return; }
-    this.auth.login(this.username, this.password).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('access', res.access);
-        localStorage.setItem('refresh', res.refresh);
-        this.router.navigate(['/dashboard']);
-      },
-      error: () => this.error = 'Invalid username or password'
-    });
+  if (!this.username || !this.password) { 
+    this.error = 'Fill in all fields'; 
+    return; 
   }
+  this.auth.login(this.username, this.password).subscribe({
+    next: (res: any) => {
+      localStorage.setItem('access', res.access);
+      localStorage.setItem('refresh', res.refresh);
+      this.router.navigate(['/dashboard']);
+    },
+    error: () => this.error = 'Invalid username or password'
+  });
+}
 }

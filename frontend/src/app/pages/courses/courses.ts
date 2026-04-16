@@ -9,7 +9,7 @@ import { CourseService } from '../../core/services/course';
   templateUrl: './courses.html',   
   styleUrls: ['./courses.css']
 })
-export class Courses implements OnInit {
+export class CoursesComponent implements OnInit {
 
   newCourse = {
     name: '',
@@ -21,18 +21,25 @@ export class Courses implements OnInit {
 
   progressMap: { [key: number]: number } = {};
 
-  constructor(private courseService: CourseService) {}
+  constructor(private courseService: CourseService) {
+    this.loadCourses(); 
+  }
 
   ngOnInit() {
     this.loadCourses();
   }
 
   loadCourses() {
-    this.courseService.getCourses().subscribe({
-      next: (data) => this.courses = data,
-      error: () => this.error = 'Download error'
-    });
-  }
+  this.courseService.getCourses().subscribe({
+    next: (data: any[]) => {
+      this.courses = data;
+      this.error = '';
+    },
+    error: (err) => {
+      this.error = 'Error loading courses: ' + err.status;
+    }
+  });
+}
 
   createCourse() {
     if (!this.newCourse.name) {
@@ -51,11 +58,14 @@ export class Courses implements OnInit {
   }
 
   deleteCourse(id: number) {
-    this.courseService.deleteCourse(id).subscribe({
-      next: () => this.loadCourses(),
-      error: () => this.error = 'Deletion error'
-    });
-  }
+  this.courseService.deleteCourse(id).subscribe({
+    next: () => {
+      this.courses = this.courses.filter(c => c.id !== id);
+      this.loadCourses();
+    },
+    error: () => this.error = 'Error deleting course'
+  });
+}
 
   updateProgress(id: number, value: number) {
     this.courseService.updateProgress({

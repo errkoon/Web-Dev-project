@@ -62,4 +62,12 @@
   
       </div>
     }
+    <h3>Deadlines</h3>
+@for (deadline of deadlines; track deadline.id) {
+  <div class="task-card">
+    <h4>{{ deadline.task_title }}</h4>
+    <p>Due: {{ deadline.due_date }}</p>
+    <p>Note: {{ deadline.note }}</p>
+  </div>
+}
   </div>

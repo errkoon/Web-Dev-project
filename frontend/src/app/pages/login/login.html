@@ -3,8 +3,8 @@
     <h2>StudyFlow</h2>
     <p>Sign in to your account</p>
 
-    <input [(ngModel)]="username" placeholder="Username" type="text">
-    <input [(ngModel)]="password" placeholder="Password" type="password">
+    <input [(ngModel)]="username" placeholder="Username" type="text" (keydown.enter)="login()">
+<input [(ngModel)]="password" placeholder="Password" type="password" (keydown.enter)="login()">
 
     @if (error) {
       <p class="error">{{ error }}</p>
