@@ -1,27 +1,135 @@
-.tasks-container {
-    max-width: 700px;
-    margin: auto;
-  }
-  
-  .form-block {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .task-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 10px;
-  }
-  
-  .priority.high { color: red; }
-  .priority.medium { color: orange; }
-  .priority.low { color: green; }
-  
-  .done { color: green; }
-  
-  .delete {
-    background: red;
-    color: white;
-  }
+.dashboard { min-height: 100vh; background: #f0f2f5; }
+
+nav {
+  background: #4f46e5;
+  color: white;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.logo { font-size: 22px; font-weight: bold; }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+nav a {
+  color: white;
+  margin: 0 8px;
+  text-decoration: none;
+  font-size: 15px;
+  opacity: 0.9;
+}
+nav a:hover { opacity: 1; }
+
+.content { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+.content h2 { font-size: 24px; margin-bottom: 24px; color: #1f2937; }
+
+.form-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+.form-card input,
+.form-card select {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 120px;
+  outline: none;
+}
+.form-card input:focus,
+.form-card select:focus { border-color: #4f46e5; }
+.form-card button {
+  padding: 10px 20px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.form-card button:hover { background: #4338ca; }
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.task-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+.task-card:hover { transform: translateY(-2px); }
+.task-card.completed { opacity: 0.6; background: #f0fdf4; }
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.task-header h3 { margin: 0; font-size: 16px; color: #1f2937; }
+
+.priority {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.priority.high { background: #fee2e2; color: #dc2626; }
+.priority.medium { background: #fef3c7; color: #d97706; }
+.priority.low { background: #dcfce7; color: #16a34a; }
+
+.course-name { color: #6b7280; font-size: 13px; margin: 0 0 12px; }
+
+.task-actions { display: flex; gap: 8px; align-items: center; }
+
+.complete-btn {
+  padding: 6px 14px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.complete-btn:hover { background: #4338ca; }
+
+.delete-btn {
+  padding: 6px 14px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.delete-btn:hover { background: #fecaca; }
+
+.done { color: #16a34a; font-weight: 600; font-size: 14px; }
+
+.section-title { font-size: 20px; color: #1f2937; margin-bottom: 16px; }
+
+.deadline-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.deadline-card h4 { margin: 0 0 8px; color: #1f2937; }
+.deadline-card p { margin: 0 0 4px; color: #6b7280; font-size: 14px; }
+.note { font-style: italic; }
+
+.error { color: #dc2626; font-size: 14px; margin-bottom: 16px; }

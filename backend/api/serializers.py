@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile
-from .models import Course, Progress
-from .models import Task, Deadline
+from .models import UserProfile, Course, Progress, Task, Deadline
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -18,6 +16,12 @@ class UserProfileSerializer(serializers.Serializer):
     username = serializers.CharField(source='user.username')
     email = serializers.CharField(source='user.email')
     bio = serializers.CharField()
+    created_at = serializers.DateTimeField()
+
+    def update(self, instance, validated_data):
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.save()
+        return instance
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +42,7 @@ class ProgressSerializer(serializers.Serializer):
         instance.percent = validated_data.get('percent', instance.percent)
         instance.save()
         return instance
-    
+
 class TaskSerializer(serializers.ModelSerializer):
     course_name = serializers.CharField(source='course.name', read_only=True)
 
@@ -46,7 +50,6 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = ['id', 'title', 'course', 'course_name', 'priority', 'is_completed', 'created_at']
         read_only_fields = ['created_at']
-
 
 class DeadlineSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)

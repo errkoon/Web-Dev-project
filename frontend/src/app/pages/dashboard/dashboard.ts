@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
 
@@ -13,12 +13,18 @@ export class DashboardComponent implements OnInit {
   profile: any = null;
   error = '';
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.auth.getProfile().subscribe({
-      next: (data: any) => this.profile = data,
-      error: () => this.error = 'Failed to load profile'
+      next: (data: any) => {
+        this.profile = data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to load profile';
+        this.cdr.detectChanges();
+      }
     });
   }
 

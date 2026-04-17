@@ -1,73 +1,82 @@
-<p>tasks works!</p>
-<div class="tasks-container">
-    <h2>Tasks</h2>
-  
-    <!-- CREATE TASK -->
-    <div class="form-block">
+<div class="dashboard">
+  <nav>
+    <span class="logo">📚 StudyFlow</span>
+    <div class="nav-links">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/courses">Courses</a>
+      <a routerLink="/tasks">Tasks</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h2>My Tasks</h2>
+
+    <div class="form-card">
       <input [(ngModel)]="newTask.title" placeholder="Task name">
-  
       <select [(ngModel)]="newTask.course">
         <option value="">Choose course</option>
         @for (course of courses; track course.id) {
           <option [value]="course.id">{{ course.name }}</option>
         }
       </select>
-  
       <select [(ngModel)]="newTask.priority">
+        <option value="">Choose priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
-  
-      <button (click)="createTask()">Create</button>
+      <button (click)="createTask()">+ Add Task</button>
     </div>
-  
-    <!-- DEADLINE -->
-    <div class="form-block">
+
+    <div class="form-card">
       <select [(ngModel)]="newDeadline.task">
         <option value="">Choose task</option>
         @for (task of tasks; track task.id) {
           <option [value]="task.id">{{ task.title }}</option>
         }
       </select>
-  
       <input type="date" [(ngModel)]="newDeadline.due_date">
       <input [(ngModel)]="newDeadline.note" placeholder="Note">
-  
-      <button (click)="addDeadline()">Add deadline</button>
+      <button (click)="addDeadline()">+ Add Deadline</button>
     </div>
-  
+
     @if (error) {
       <p class="error">{{ error }}</p>
     }
-  
-    <!-- TASK LIST -->
-    @for (task of tasks; track task.id) {
-      <div class="task-card" [class.completed]="task.is_completed">
-  
-        <div class="task-header">
-          <h3>{{ task.title }}</h3>
-          <span class="priority {{ task.priority }}">{{ task.priority }}</span>
+
+    <div class="tasks-grid">
+      @for (task of tasks; track task.id) {
+        <div class="task-card" [class.completed]="task.is_completed">
+          <div class="task-header">
+            <h3>{{ task.title }}</h3>
+            <span class="priority {{ task.priority }}">{{ task.priority }}</span>
+          </div>
+          <p class="course-name">📖 {{ task.course_name }}</p>
+          <div class="task-actions">
+            @if (task.is_completed) {
+              <span class="done">✅ Done</span>
+            } @else {
+              <button class="complete-btn" (click)="completeTask(task.id)">Complete</button>
+            }
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+          </div>
         </div>
-  
-        <p>Course: {{ task.course_name }}</p>
-  
-        @if (task.is_completed) {
-          <span class="done">Done</span>
-        } @else {
-          <button (click)="completeTask(task.id)">Complete</button>
+      }
+    </div>
+
+    @if (deadlines.length > 0) {
+      <h3 class="section-title">⏰ Deadlines</h3>
+      <div class="tasks-grid">
+        @for (deadline of deadlines; track deadline.id) {
+          <div class="deadline-card">
+            <h4>{{ deadline.task_title }}</h4>
+            <p>📅 {{ deadline.due_date }}</p>
+            @if (deadline.note) {
+              <p class="note">📝 {{ deadline.note }}</p>
+            }
+          </div>
         }
-  
-        <button class="delete" (click)="deleteTask(task.id)">Delete</button>
-  
       </div>
     }
-    <h3>Deadlines</h3>
-@for (deadline of deadlines; track deadline.id) {
-  <div class="task-card">
-    <h4>{{ deadline.task_title }}</h4>
-    <p>Due: {{ deadline.due_date }}</p>
-    <p>Note: {{ deadline.note }}</p>
   </div>
-}
-  </div>
+</div>

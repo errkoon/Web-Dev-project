@@ -1,42 +1,62 @@
-<p>courses works!</p>
-<div class="courses-container">
-  <h2>My Courses</h2>
-
-  <div class="form-block">
-    <input [(ngModel)]="newCourse.name" placeholder="Course name">
-    <input [(ngModel)]="newCourse.description" placeholder="Description">
-    <button (click)="createCourse()">Create Course</button>
-  </div>
-
-  @if (error) {
-    <p class="error">{{ error }}</p>
-  }
-
-  @for (course of courses; track course.id) {
-    <div class="course-card">
-      <h3>{{ course.name }}</h3>
-      <p>{{ course.description }}</p>
-
-      @if (progressMap[course.id] > 0) {
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="progressMap[course.id]"></div>
-        </div>
-        <span>{{ progressMap[course.id] }}%</span>
-      } @else {
-        <span class="no-progress">Progress: 0%</span>
-      }
-
-      <div class="actions">
-        <input type="number" min="0" max="100"
-          [(ngModel)]="progressMap[course.id]"
-          placeholder="Progress %">
-        <button (click)="updateProgress(course.id, progressMap[course.id])">
-          Update Progress
-        </button>
-        <button class="delete-btn" (click)="deleteCourse(course.id)">
-          Delete
-        </button>
-      </div>
+<div class="dashboard">
+  <nav>
+    <span class="logo">📚 StudyFlow</span>
+    <div class="nav-links">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/tasks">Tasks</a>
+      <a routerLink="/courses">Courses</a>
     </div>
-  }
+  </nav>
+
+  <div class="content">
+    <h2>My Courses</h2>
+
+    <div class="form-card">
+      <input [(ngModel)]="newCourse.name" placeholder="Course name">
+      <input [(ngModel)]="newCourse.description" placeholder="Description">
+      <button (click)="createCourse()">+ Create Course</button>
+    </div>
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <div class="courses-grid">
+      @for (course of courses; track course.id) {
+        <div class="course-card">
+          <div class="course-header">
+            <span class="course-icon">📖</span>
+            <h3>{{ course.name }}</h3>
+          </div>
+          <p class="course-desc">{{ course.description }}</p>
+
+          <div class="progress-section">
+            @if (progressMap[course.id] > 0) {
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="progressMap[course.id]"></div>
+              </div>
+              <span class="progress-label">{{ progressMap[course.id] }}%</span>
+            } @else {
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+              <span class="progress-label">0%</span>
+            }
+          </div>
+
+          <div class="actions">
+            <input type="number" min="0" max="100"
+              [(ngModel)]="progressMap[course.id]"
+              placeholder="0-100">
+            <button class="update-btn" (click)="updateProgress(course.id, progressMap[course.id])">
+              Update
+            </button>
+            <button class="delete-btn" (click)="deleteCourse(course.id)">
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
 </div>
