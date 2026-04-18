@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CourseService } from '../../core/services/course';
 import { TaskService } from '../../core/services/task';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './courses.html',
   styleUrls: ['./courses.css']
 })
