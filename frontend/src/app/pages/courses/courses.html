@@ -31,27 +31,13 @@
           <p class="course-desc">{{ course.description }}</p>
 
           <div class="progress-section">
-            @if (progressMap[course.id] > 0) {
-              <div class="progress-bar">
-                <div class="progress-fill" [style.width.%]="progressMap[course.id]"></div>
-              </div>
-              <span class="progress-label">{{ progressMap[course.id] }}%</span>
-            } @else {
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 0%"></div>
-              </div>
-              <span class="progress-label">0%</span>
-            }
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="progressMap[course.id]"></div>
+            </div>
+            <span class="progress-label">{{ progressMap[course.id] || 0 }}%</span>
           </div>
 
           <div class="actions">
-            <input type="number" min="0" max="100"
-              [ngModel]="progressMap[course.id]"
-              (ngModelChange)="progressMap[course.id] = $event"
-              placeholder="0-100">
-            <button class="update-btn" (click)="$event.stopPropagation(); updateProgress(course.id, progressMap[course.id])">
-              Update
-            </button>
             <button class="delete-btn" (click)="$event.stopPropagation(); deleteCourse(course.id)">Delete</button>
           </div>
         </div>
