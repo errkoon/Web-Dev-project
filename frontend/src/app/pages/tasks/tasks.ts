@@ -75,12 +75,25 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  deleteTask(id: number) {
+   private deletingIds = new Set<number>();
+
+  deleteTask(id: number, event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.deletingIds.has(id)) return;
+    this.deletingIds.add(id);
     this.taskService.deleteTask(id).subscribe({
-      next: () => this.loadTasks(),
-      error: () => this.error = 'Error deleting task'
+      next: () => {
+        this.tasks = this.tasks.filter(t => t.id !== id);
+        this.deadlines = this.deadlines.filter(d => d.task !== id);
+        this.deletingIds.delete(id);
+      },
+      error: () => {
+        this.error = 'Error deleting task';
+        this.deletingIds.delete(id);
+      }
     });
   }
+   
 
   addDeadline() {
     if (!this.newDeadline.task || !this.newDeadline.due_date) {

@@ -56,9 +56,9 @@
             @if (task.is_completed) {
               <span class="done">✅ Done</span>
             } @else {
-              <button class="complete-btn" (click)="completeTask(task.id)">Complete</button>
+              <button class="complete-btn" (click)="$event.stopPropagation(); completeTask(task.id)">Complete</button>
             }
-            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+            <button class="delete-btn" (click)="$event.stopPropagation(); deleteTask(task.id)">Delete</button>
           </div>
         </div>
       }

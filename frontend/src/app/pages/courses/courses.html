@@ -43,15 +43,15 @@
               <span class="progress-label">0%</span>
             }
           </div>
-
-          <div class="actions">
+            <div class="actions">
             <input type="number" min="0" max="100"
-              [(ngModel)]="progressMap[course.id]"
+              [ngModel]="progressMap[course.id]"
+              (ngModelChange)="progressMap[course.id] = $event"
               placeholder="0-100">
-            <button class="update-btn" (click)="updateProgress(course.id, progressMap[course.id])">
+            <button class="update-btn" (click)="$event.stopPropagation(); updateProgress(course.id, progressMap[course.id])">
               Update
             </button>
-            <button class="delete-btn" (click)="deleteCourse(course.id)">
+            <button class="delete-btn" (click)="$event.stopPropagation(); deleteCourse(course.id, $event)">
               Delete
             </button>
           </div>
