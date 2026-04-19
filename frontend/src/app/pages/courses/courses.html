@@ -1,6 +1,18 @@
-<div class="dashboard">
+<div class="ocean-bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
   <nav>
-    <span class="logo">📚 StudyFlow</span>
+    <span class="logo">
+      <div class="logo-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 12V6a1 1 0 011-1h3v7H4a1 1 0 01-1-1z" fill="#fff"/>
+          <path d="M7 5h2a2 2 0 012 2v5a1 1 0 01-1 1H7V5z" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+      </div>
+      StudyFlow
+    </span>
     <div class="nav-links">
       <a routerLink="/dashboard">Dashboard</a>
       <a routerLink="/tasks">Tasks</a>
@@ -8,13 +20,13 @@
     </div>
   </nav>
 
-  <div class="content">
-    <h2>My Courses</h2>
+  <div class="page">
+    <h2 class="page-title">My Courses</h2>
 
     <div class="form-card">
-      <input [(ngModel)]="newCourse.name" placeholder="Course name">
-      <input [(ngModel)]="newCourse.description" placeholder="Description">
-      <button (click)="createCourse()">+ Create Course</button>
+      <input [(ngModel)]="newCourse.name" placeholder="Course name" class="inp">
+      <input [(ngModel)]="newCourse.description" placeholder="Description" class="inp">
+      <button (click)="createCourse()" class="btn-primary">+ Create Course</button>
     </div>
 
     @if (error) {
@@ -25,20 +37,33 @@
       @for (course of courses; track course.id) {
         <div class="course-card">
           <div class="course-header">
-            <span class="course-icon">📖</span>
+            <div class="course-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M4 17V8a2 2 0 012-2h4v11H6a2 2 0 01-2-2z" fill="#60A5FA"/>
+                <path d="M10 6h3a2 2 0 012 2v9a2 2 0 01-2 2h-3V6z" fill="#3B82F6"/>
+              </svg>
+            </div>
             <h3>{{ course.name }}</h3>
           </div>
           <p class="course-desc">{{ course.description }}</p>
 
           <div class="progress-section">
             <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="progressMap[course.id]"></div>
+              <div class="progress-fill" [style.width.%]="progressMap[course.id]"
+                [class.done]="progressMap[course.id] === 100"></div>
             </div>
-            <span class="progress-label">{{ progressMap[course.id] || 0 }}%</span>
+            <div class="progress-labels">
+              <span>Progress</span>
+              <span class="pct" [class.done]="progressMap[course.id] === 100">
+                {{ progressMap[course.id] || 0 }}%
+              </span>
+            </div>
           </div>
 
           <div class="actions">
-            <button class="delete-btn" (click)="$event.stopPropagation(); deleteCourse(course.id)">Delete</button>
+            <button class="delete-btn" (click)="$event.stopPropagation(); deleteCourse(course.id)">
+              Delete
+            </button>
           </div>
         </div>
       }

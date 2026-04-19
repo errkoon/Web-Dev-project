@@ -1,6 +1,18 @@
-<div class="dashboard">
+<div class="ocean-bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
   <nav>
-    <span class="logo">📚 StudyFlow</span>
+    <span class="logo">
+      <div class="logo-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 12V6a1 1 0 011-1h3v7H4a1 1 0 01-1-1z" fill="#fff"/>
+          <path d="M7 5h2a2 2 0 012 2v5a1 1 0 01-1 1H7V5z" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+      </div>
+      StudyFlow
+    </span>
     <div class="nav-links">
       <a routerLink="/dashboard">Dashboard</a>
       <a routerLink="/courses">Courses</a>
@@ -8,36 +20,36 @@
     </div>
   </nav>
 
-  <div class="content">
-    <h2>My Tasks</h2>
+  <div class="page">
+    <h2 class="page-title">My Tasks</h2>
 
     <div class="form-card">
-      <input [(ngModel)]="newTask.title" placeholder="Task name">
-      <select [(ngModel)]="newTask.course">
+      <input [(ngModel)]="newTask.title" placeholder="Task name" class="inp">
+      <select [(ngModel)]="newTask.course" class="sel">
         <option value="">Choose course</option>
         @for (course of courses; track course.id) {
           <option [value]="course.id">{{ course.name }}</option>
         }
       </select>
-      <select [(ngModel)]="newTask.priority">
-        <option value="">Choose priority</option>
+      <select [(ngModel)]="newTask.priority" class="sel">
+        <option value="">Priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
-      <button (click)="createTask()">+ Add Task</button>
+      <button (click)="createTask()" class="btn-primary">+ Add Task</button>
     </div>
 
     <div class="form-card">
-      <select [(ngModel)]="newDeadline.task">
+      <select [(ngModel)]="newDeadline.task" class="sel">
         <option value="">Choose task</option>
         @for (task of tasks; track task.id) {
           <option [value]="task.id">{{ task.title }}</option>
         }
       </select>
-      <input type="date" [(ngModel)]="newDeadline.due_date">
-      <input [(ngModel)]="newDeadline.note" placeholder="Note">
-      <button (click)="addDeadline()">+ Add Deadline</button>
+      <input type="date" [(ngModel)]="newDeadline.due_date" class="inp">
+      <input [(ngModel)]="newDeadline.note" placeholder="Note" class="inp">
+      <button (click)="addDeadline()" class="btn-primary">+ Add Deadline</button>
     </div>
 
     @if (error) {
@@ -47,32 +59,48 @@
     <div class="tasks-grid">
       @for (task of tasks; track task.id) {
         <div class="task-card" [class.completed]="task.is_completed">
-          <div class="task-header">
-            <h3>{{ task.title }}</h3>
-            <span class="priority {{ task.priority }}">{{ task.priority }}</span>
+          <div class="task-top">
+            <h3 class="task-name">{{ task.title }}</h3>
+            <span class="badge {{ task.priority }}">{{ task.priority }}</span>
           </div>
-          <p class="course-name">📖 {{ task.course_name }}</p>
+          <p class="course-name">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="vertical-align:middle;margin-right:5px">
+              <path d="M2 10V4a1 1 0 011-1h2.5v7H3a1 1 0 01-1-1z" fill="#60A5FA"/>
+              <path d="M5.5 3H7.5a1 1 0 011 1v6a1 1 0 01-1 1H5.5V3z" fill="#3B82F6"/>
+            </svg>
+            {{ task.course_name }}
+          </p>
           <div class="task-actions">
             @if (task.is_completed) {
-              <span class="done">✅ Done</span>
+              <span class="done-label">✓ Done</span>
             } @else {
-              <button class="complete-btn" (click)="$event.stopPropagation(); completeTask(task.id)">Complete</button>
+              <button class="complete-btn" (click)="$event.stopPropagation(); completeTask(task.id)">
+                Complete
+              </button>
             }
-            <button class="delete-btn" (click)="$event.stopPropagation(); deleteTask(task.id)">Delete</button>
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
           </div>
         </div>
       }
     </div>
 
     @if (deadlines.length > 0) {
-      <h3 class="section-title">⏰ Deadlines</h3>
+      <div class="section-header">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7.5" stroke="#F87171" stroke-width="1.5"/>
+          <path d="M9 5v4l2.5 2.5" stroke="#F87171" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Deadlines
+      </div>
       <div class="tasks-grid">
         @for (deadline of deadlines; track deadline.id) {
           <div class="deadline-card">
-            <h4>{{ deadline.task_title }}</h4>
-            <p>📅 {{ deadline.due_date }}</p>
+            <div class="dl-top">
+              <h4 class="dl-name">{{ deadline.task_title }}</h4>
+              <span class="dl-date">{{ deadline.due_date }}</span>
+            </div>
             @if (deadline.note) {
-              <p class="note">📝 {{ deadline.note }}</p>
+              <p class="dl-note">{{ deadline.note }}</p>
             }
           </div>
         }

@@ -1,6 +1,18 @@
-<div class="dashboard">
+<div class="ocean-bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
   <nav>
-    <span class="logo">📚 StudyFlow</span>
+    <span class="logo">
+      <div class="logo-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 12V6a1 1 0 011-1h3v7H4a1 1 0 01-1-1z" fill="#fff"/>
+          <path d="M7 5h2a2 2 0 012 2v5a1 1 0 01-1 1H7V5z" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+      </div>
+      StudyFlow
+    </span>
     <div class="nav-links">
       <a routerLink="/courses">Courses</a>
       <a routerLink="/tasks">Tasks</a>
@@ -8,16 +20,13 @@
     </div>
   </nav>
 
-  <div class="content">
+  <div class="page">
     @if (profile) {
       <div class="welcome-card">
         <div class="avatar">{{ profile.username[0].toUpperCase() }}</div>
-        <div class="user-info">
-          <h2>Welcome back, {{ profile.username }}! 👋</h2>
-          <p>{{ profile.email }}</p>
-          @if (profile.bio) {
-            <p class="bio">{{ profile.bio }}</p>
-          }
+        <div>
+          <div class="wname">Welcome back, {{ profile.username }}! 👋</div>
+          <div class="wemail">{{ profile.email }}</div>
         </div>
       </div>
     } @else {
@@ -28,16 +37,44 @@
       <p class="error">{{ error }}</p>
     }
 
+    <div class="stats">
+      <div class="stat blue">
+        <div class="stat-label">Courses</div>
+        <div class="stat-val">{{ coursesCount }}</div>
+        <div class="stat-sub">Active</div>
+      </div>
+      <div class="stat green">
+        <div class="stat-label">Tasks done</div>
+        <div class="stat-val">{{ tasksDoneCount }}</div>
+        <div class="stat-sub">Total</div>
+      </div>
+      <div class="stat purple">
+        <div class="stat-label">Deadlines</div>
+        <div class="stat-val">{{ deadlinesCount }}</div>
+        <div class="stat-sub">Upcoming</div>
+      </div>
+    </div>
+
     <div class="cards">
       <a routerLink="/courses" class="card">
-        <span class="card-icon">📖</span>
-        <h3>My Courses</h3>
-        <p>Manage your learning courses</p>
+        <div class="card-icon blue">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M5 20V9a2 2 0 012-2h5v13H7a2 2 0 01-2-2z" fill="#60A5FA"/>
+            <path d="M12 7h4a2 2 0 012 2v11a2 2 0 01-2 2h-4V7z" fill="#3B82F6"/>
+          </svg>
+        </div>
+        <div class="card-title">My Courses</div>
+        <div class="card-sub">Manage your learning</div>
       </a>
       <a routerLink="/tasks" class="card">
-        <span class="card-icon">✅</span>
-        <h3>My Tasks</h3>
-        <p>Track your assignments</p>
+        <div class="card-icon green">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="4" y="4" width="18" height="18" rx="4" stroke="#4ADE80" stroke-width="1.5" fill="none"/>
+            <path d="M9 13l3 3 6-7" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card-title">My Tasks</div>
+        <div class="card-sub">Track your assignments</div>
       </a>
     </div>
   </div>
